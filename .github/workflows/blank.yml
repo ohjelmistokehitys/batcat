@@ -1,0 +1,20 @@
+name: Verify batcat installation
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  install-and-verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup bat
+        uses: ohjelmistokehitys/batcat@v1
+
+      - name: Run bat
+        run: |
+          bat README.md
