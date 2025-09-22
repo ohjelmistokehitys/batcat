@@ -1,0 +1,30 @@
+name: "Setup bat (batcat wrapper)"
+description: "Installs batcat with caching and adds a wrapper for automation use in CI"
+author: "Ohjelmistokehitys"
+branding:
+  icon: "terminal"
+  color: "blue"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cache apt packages
+      uses: actions/cache@v4
+      with:
+        path: /var/cache/apt/archives
+        key: ${{ runner.os }}-apt-bat
+        restore-keys: |
+          ${{ runner.os }}-apt-
+
+    - name: Install bat
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bat
+
+    - name: Add bat wrapper
+      shell: bash
+      run: |
+        echo '#!/usr/bin/env bash' | sudo tee /usr/local/bin/bat
+        echo 'exec batcat --plain --paging=never "$@"' | sudo tee -a /usr/local/bin/bat
+        sudo chmod +x /usr/local/bin/bat
