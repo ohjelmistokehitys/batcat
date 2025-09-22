@@ -12,16 +12,16 @@ Perfect for automation scripts in CI.
 
 ```yaml
 jobs:
-  demo:
+  example:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Setup bat
-        uses: your-org/setup-bat@v1
+        uses: ohjelmistokehitys/batcat@v1
 
       - name: Run bat
         run: |
           bat README.md
-          bat --line-range 1:10 README.md
 ```
